@@ -38,16 +38,16 @@ namespace OpenRCT2::Scenario
 
 enum
 {
-    S6_TYPE_SAVEDGAME,
-    S6_TYPE_SCENARIO
+    kS6TypeSavedGame,
+    kS6TypeScenario
 };
 
 // For legacy scores file
 enum
 {
-    SCENARIO_FLAGS_VISIBLE = (1 << 0),
-    SCENARIO_FLAGS_COMPLETED = (1 << 1),
-    SCENARIO_FLAGS_SIXFLAGS = (1 << 2)
+    kScenarioFlagsVisible = (1 << 0),
+    kScenarioFlagsCompleted = (1 << 1),
+    kScenarioFlagsSixFlags = (1 << 2)
 };
 
 namespace OpenRCT2::RCT2

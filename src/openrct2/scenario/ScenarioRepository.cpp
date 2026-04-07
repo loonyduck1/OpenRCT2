@@ -610,7 +610,7 @@ private:
                 auto scBasic = fs.ReadValue<RCT2::ScoresEntry>();
 
                 // Ignore non-completed scenarios
-                if (scBasic.Flags & SCENARIO_FLAGS_COMPLETED)
+                if (scBasic.Flags & kScenarioFlagsCompleted)
                 {
                     bool notFound = true;
                     for (auto& highscore : _highscores)

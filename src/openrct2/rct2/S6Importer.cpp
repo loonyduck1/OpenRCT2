@@ -144,7 +144,7 @@ namespace OpenRCT2::RCT2
             LOG_VERBOSE("saved game classic_flag = 0x%02x", _s6.Header.ClassicFlag);
             if (isScenario)
             {
-                if (_s6.Header.Type != S6_TYPE_SCENARIO)
+                if (_s6.Header.Type != kS6TypeScenario)
                 {
                     throw std::runtime_error("Park is not a scenario.");
                 }
@@ -160,7 +160,7 @@ namespace OpenRCT2::RCT2
             }
             else
             {
-                if (_s6.Header.Type != S6_TYPE_SAVEDGAME)
+                if (_s6.Header.Type != kS6TypeSavedGame)
                 {
                     throw std::runtime_error("Park is not a saved game.");
                 }
@@ -346,7 +346,7 @@ namespace OpenRCT2::RCT2
                 return !IsLikelyUTF8(str) ? RCT2StringToUTF8(str, RCT2LanguageId::englishUK) : std::string(str);
             };
 
-            if (_s6.Header.Type == S6_TYPE_SCENARIO)
+            if (_s6.Header.Type == kS6TypeScenario)
             {
                 gameState.scenarioOptions.name = loadMaybeUTF8(_s6.Info.Name);
                 gameState.scenarioOptions.details = loadMaybeUTF8(_s6.Info.Details);
@@ -376,7 +376,7 @@ namespace OpenRCT2::RCT2
             park.flags = _s6.ParkFlags & ~PARK_FLAGS_NO_MONEY_SCENARIO;
 
             // RCT2 used a different flag for `no money` when the park is a scenario
-            if (_s6.Header.Type == S6_TYPE_SCENARIO)
+            if (_s6.Header.Type == kS6TypeScenario)
             {
                 if (_s6.ParkFlags & PARK_FLAGS_NO_MONEY_SCENARIO)
                     park.flags |= PARK_FLAGS_NO_MONEY;
@@ -542,7 +542,7 @@ namespace OpenRCT2::RCT2
                     park.entrances.push_back(entrance);
                 }
             }
-            if (_s6.Header.Type == S6_TYPE_SCENARIO)
+            if (_s6.Header.Type == kS6TypeScenario)
             {
                 // _s6.ScenarioFilename is wrong for some RCT2 expansion scenarios, so we use the real filename
                 gameState.scenarioFileName = Path::GetFileName(_s6Path);

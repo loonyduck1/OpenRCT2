@@ -107,11 +107,11 @@ static bool TryClassifyAsS6(IStream* stream, ClassifiedFileInfo* result)
     {
         auto chunkReader = SawyerChunkReader(stream);
         auto s6Header = chunkReader.ReadChunkAs<RCT2::S6Header>();
-        if (s6Header.Type == S6_TYPE_SAVEDGAME)
+        if (s6Header.Type == kS6TypeSavedGame)
         {
             result->Type = FileType::savedGame;
         }
-        else if (s6Header.Type == S6_TYPE_SCENARIO)
+        else if (s6Header.Type == kS6TypeScenario)
         {
             result->Type = FileType::scenario;
         }
