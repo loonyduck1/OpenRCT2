@@ -857,8 +857,10 @@ void RideConstructionSetDefaultNextPiece()
 
             if (trackTypeHasSpeedSetting(trackElement->GetTrackType()))
                 _currentBrakeSpeed = trackElement->GetBrakeBoosterSpeed();
+            // Ensure track pieces can't both have seat rotation and speed
+            else
+                _currentSeatRotationAngle = trackElement->GetSeatRotation();
             _currentColourScheme = static_cast<RideColourScheme>(trackElement->GetColourScheme());
-            _currentSeatRotationAngle = trackElement->GetSeatRotation();
 
             _previousTrackPiece.x = trackBeginEnd.begin_x;
             _previousTrackPiece.y = trackBeginEnd.begin_y;
@@ -917,8 +919,11 @@ void RideConstructionSetDefaultNextPiece()
 
             if (trackTypeHasSpeedSetting(trackElement->GetTrackType()))
                 _currentBrakeSpeed = trackElement->GetBrakeBoosterSpeed();
+            // Ensure track pieces can't both have seat rotation and speed
+            else
+                _currentSeatRotationAngle = trackElement->GetSeatRotation();
             _currentColourScheme = static_cast<RideColourScheme>(trackElement->GetColourScheme());
-            _currentSeatRotationAngle = trackElement->GetSeatRotation();
+
 
             _previousTrackPiece.x = xyElement.x;
             _previousTrackPiece.y = xyElement.y;

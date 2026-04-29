@@ -1636,8 +1636,10 @@ namespace OpenRCT2::Ui::Windows
                 _brakeSpeedText = FormatStringID(STR_VELOCITY, brakeSpeed2);
                 widgets[WIDX_SPEED_SETTING_SPINNER].setString(_brakeSpeedText.c_str());
             }
-
-            widgets[WIDX_SEAT_ROTATION_ANGLE_SPINNER].text = kSeatAngleRotationStrings[_currentSeatRotationAngle];
+            else 
+            {
+                widgets[WIDX_SEAT_ROTATION_ANGLE_SPINNER].text = kSeatAngleRotationStrings[_currentSeatRotationAngle];
+            }
 
             // Simulate button
             auto& simulateWidget = widgets[WIDX_SIMULATE];
@@ -1987,9 +1989,10 @@ namespace OpenRCT2::Ui::Windows
                 || trackTypeIsBooster(_currentlySelectedTrack.trackType);
 
             // only necessary because TD6 writes speed and seat rotation to the same bits. Remove for new track design format.
-            bool trackHasSpeedAndSeatRotation = _selectedTrackType == TrackElemType::blockBrakes
-                || _currentlySelectedTrack == TrackElemType::blockBrakes || _selectedTrackType > TrackElemType::highestAlias
-                || _currentlySelectedTrack.trackType > TrackElemType::highestAlias;
+            // Commented out as it's currently unused.
+            // bool trackHasSpeedAndSeatRotation = _selectedTrackType == TrackElemType::blockBrakes
+            //     || _currentlySelectedTrack == TrackElemType::blockBrakes || _selectedTrackType > TrackElemType::highestAlias
+            //     || _currentlySelectedTrack.trackType > TrackElemType::highestAlias;
 
             bool rideHasSeatRotation = rtd.flags.has(RtdFlag::hasSeatRotation);
 
@@ -2044,8 +2047,10 @@ namespace OpenRCT2::Ui::Windows
             widgets[WIDX_SEAT_ROTATION_ANGLE_SPINNER_DOWN].type = WidgetType::empty;
 
             // Simplify this condition to "rideHasSeatRotation" for new track design format
-            if ((rideHasSeatRotation && !trackHasSpeedSetting)
-                || (rideHasSeatRotation && trackHasSpeedSetting && trackHasSpeedAndSeatRotation))
+            if ((rideHasSeatRotation && !trackHasSpeedSetting))
+                // Currently seat rotation and track speed settings are not compatible due to limitations in the TD6 format,
+                // so the additional condition for having both has been removed.
+                // || (rideHasSeatRotation && trackHasSpeedSetting && trackHasSpeedAndSeatRotation))
             {
                 widgets[WIDX_SEAT_ROTATION_GROUPBOX].type = WidgetType::groupbox;
                 widgets[WIDX_SEAT_ROTATION_ANGLE_SPINNER].type = WidgetType::spinner;
@@ -2054,17 +2059,18 @@ namespace OpenRCT2::Ui::Windows
                 widgets[WIDX_BANKING_GROUPBOX].right = bankingGroupboxRightWithSeatRotation;
 
                 // squishes the track speed spinner slightly to make room for the seat rotation widgets
-                if (trackHasSpeedSetting)
-                {
-                    widgets[WIDX_SPEED_SETTING_SPINNER].left -= 4;
-                    widgets[WIDX_SPEED_SETTING_SPINNER].right -= 8;
-                    widgets[WIDX_SPEED_SETTING_SPINNER_UP].right -= 8;
-                    widgets[WIDX_SPEED_SETTING_SPINNER_DOWN].right -= 8;
-                    widgets[WIDX_SPEED_SETTING_SPINNER_UP].left -= 8;
-                    widgets[WIDX_SPEED_SETTING_SPINNER_DOWN].left -= 8;
-                }
+                // We don't need to adjust speed widget as it's removed for seat rotation rides
+                // if (trackHasSpeedSetting)
+                // {
+                //     widgets[WIDX_SPEED_SETTING_SPINNER].left -= 4;
+                //     widgets[WIDX_SPEED_SETTING_SPINNER].right -= 8;
+                //     widgets[WIDX_SPEED_SETTING_SPINNER_UP].right -= 8;
+                //     widgets[WIDX_SPEED_SETTING_SPINNER_DOWN].right -= 8;
+                //     widgets[WIDX_SPEED_SETTING_SPINNER_UP].left -= 8;
+                //     widgets[WIDX_SPEED_SETTING_SPINNER_DOWN].left -= 8;
+                // }
                 // moves banking buttons to the left to make room for the seat rotation widgets
-                else if (IsTrackEnabled(TrackGroup::flatRollBanking))
+                if (IsTrackEnabled(TrackGroup::flatRollBanking))
                 {
                     for (int32_t i = WIDX_BANK_LEFT; i <= WIDX_BANK_RIGHT; i++)
                     {
